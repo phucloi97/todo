@@ -12,8 +12,6 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.resolve(__dirname, "client", "build")));
 
-app.use(express.static(path.resolve(__dirname, "client", 'build', "index.html")));
-
 //connect mongodb
 const url = require("./config/key").mongoURL;
 
@@ -29,10 +27,8 @@ mongoose
 //use Routes
 app.use("/api/items", items);
 
-app.get("*", (req, res) => {
-  res.sendFile("./index.html");
 app.get("/*", (req, res) => {
-  res.sendFile('index.html');
+  res.sendFile("/index.html");
 });
 
 const port = process.env.PORT || 5000;
