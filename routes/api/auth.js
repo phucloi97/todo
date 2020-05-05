@@ -49,7 +49,7 @@ router.post("/", (req, res) => {
 //description get user data
 //access  private
 router.get("/user", auth, (req, res) => {
-  User.findOne(req.user._id)
+  User.findOne(req.user.id)
     .select("-password")
     .then((user) => res.json(user));
 });

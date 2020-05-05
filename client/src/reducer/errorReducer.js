@@ -5,7 +5,7 @@ const initalState = {
   status: null,
   id: null,
 };
-
+//cung cap loi qua trinh login or register
 export default function (state = initalState, action) {
   switch (action.type) {
     case GET_ERRORS:
