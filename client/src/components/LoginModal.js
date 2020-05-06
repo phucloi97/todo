@@ -12,13 +12,12 @@ import {
   Alert,
 } from "reactstrap";
 import { connect } from "react-redux";
-import { register } from "../actions/authActions";
+import { login } from "../actions/authActions";
 import { clearErrors } from "../actions/errorActions";
 
-class RegisterModal extends Component {
+class LoginModal extends Component {
   state = {
     modal: false,
-    name: "",
     email: "",
     password: "",
     msg: null,
@@ -34,13 +33,13 @@ class RegisterModal extends Component {
   };
   onSubmit = (e) => {
     e.preventDefault();
-    const { name, email, password } = this.state;
-    const newUser = { name, email, password };
-    this.props.register(newUser);
+    const { email, password } = this.state;
+    const newUser = { email, password };
+    this.props.login(newUser);
   };
   componentDidUpdate(preProps) {
     if (preProps !== this.props) {
-      if (this.props.err.id == "REGISTER_FAIL") {
+      if (this.props.err.id == "LOGIN_FAIL") {
         return this.setState({ msg: this.props.err.msg });
       }
       this.setState({ msg: null });
@@ -57,7 +56,7 @@ class RegisterModal extends Component {
     return (
       <div>
         <NavLink onClick={this.toggle} href="#">
-          Register
+          Login
         </NavLink>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Register</ModalHeader>
@@ -66,14 +65,6 @@ class RegisterModal extends Component {
               <Alert color="danger">{this.state.msg}</Alert>
             ) : null}
             <FormGroup>
-              <Label for="name">Name</Label>
-              <Input
-                type="text"
-                name="name"
-                id="name"
-                placeholder="Name"
-                onChange={this.onChange}
-              />
               <Label for="email">Email</Label>
               <Input
                 type="Email"
@@ -95,7 +86,7 @@ class RegisterModal extends Component {
                 style={{ margin: "2rem" }}
                 onClick={this.onSubmit}
               >
-                Register
+                Login
               </Button>
             </FormGroup>
           </ModalBody>
@@ -110,6 +101,4 @@ const mapPropstoSate = (state) => ({
   err: state.error,
 });
 
-export default connect(mapPropstoSate, { register, clearErrors })(
-  RegisterModal
-);
+export default connect(mapPropstoSate, { login, clearErrors })(LoginModal);

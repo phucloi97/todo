@@ -35,7 +35,6 @@ export const loadUser = () => (dispatch, getState) => {
   axios
     .get("/api/auth/user", config)
     .then((res) => {
-      console.log("===>" + res.data);
       return dispatch({
         type: USER_LOADED,
         payload: res.data,
@@ -79,4 +78,43 @@ export const register = ({ name, email, password }) => (dispatch) => {
       });
     });
 };
-23;
+
+//logout user
+
+export const logout = () => {
+  return {
+    type: LOGOUT_SUCCESS,
+  };
+};
+//login user
+
+export const login = ({ email, password }) => (dispatch) => {
+  const config = {
+    headers: {
+      "content-type": "application/json",
+    },
+  };
+  const body = JSON.stringify({ email, password });
+  console.log(body);
+  axios
+    .post("/api/auth", body, config)
+    .then((res) => {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err.response.status);
+      dispatch(
+        returnErrors(
+          err.response.data.massage,
+          err.response.status,
+          "LOGIN_FAIL"
+        )
+      );
+      dispatch({
+        type: LOGIN_FAIL,
+      });
+    });
+};

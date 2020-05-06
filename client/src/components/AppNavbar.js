@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import RegisterModal from "./RegisterModal";
+import LoginModal from "./LoginModal";
+import Logout from "./Logout";
+import { connect, getState } from "react-redux";
 import {
   Collapse,
   Navbar,
@@ -7,11 +10,34 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
 } from "reactstrap";
 
 const AppNavbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated, user } = props.auth;
+
+  const authLink = (
+    <Fragment>
+      <NavItem>
+        <span className="navbar-text mr-3">
+          <strong>{user ? user.name : null}</strong>
+        </span>
+      </NavItem>
+      <NavItem>
+        <Logout />
+      </NavItem>
+    </Fragment>
+  );
+  const guestLink = (
+    <Fragment>
+      <NavItem>
+        <RegisterModal />
+      </NavItem>
+      <NavItem>
+        <LoginModal />
+      </NavItem>
+    </Fragment>
+  );
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -22,9 +48,7 @@ const AppNavbar = (props) => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            <NavItem>
-              <RegisterModal />
-            </NavItem>
+            {isAuthenticated ? authLink : guestLink}
           </Nav>
         </Collapse>
       </Navbar>
@@ -32,4 +56,10 @@ const AppNavbar = (props) => {
   );
 };
 
-export default AppNavbar;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, null)(AppNavbar);

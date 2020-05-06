@@ -19,8 +19,20 @@ export const deleteItem = (id) => (dispatch) => {
     });
   });
 };
-export const addItem = (name) => (dispatch) => {
-  axios.post("/api/items", { name }).then((res) => {
+export const addItem = (name) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  // headers
+  // console.log(token);
+  // // if token add header
+  const config = {
+    headers: {
+      "conten-type": "application/json",
+    },
+  };
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  axios.post("/api/items", { name }, config).then((res) => {
     return dispatch({
       type: ADD_ITEMS,
       payload: res.data,
