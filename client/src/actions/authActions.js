@@ -32,7 +32,6 @@ export const loadUser = () => (dispatch, getState) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
-  console.log(config);
   axios
     .get("/api/auth/user", config)
     .then((res) => {
@@ -43,7 +42,6 @@ export const loadUser = () => (dispatch, getState) => {
       });
     })
     .catch((err) => {
-      console.log(err.response);
       dispatch(returnErrors(err.response.data.message, err.response.status));
       dispatch({
         type: AUTH_ERROR,
@@ -69,9 +67,16 @@ export const register = ({ name, email, password }) => (dispatch) => {
       });
     })
     .catch((err) => {
-      dispatch(returnErrors(err.response.data.message, err.response.status));
+      dispatch(
+        returnErrors(
+          err.response.data.message,
+          err.response.status,
+          "REGISTER_FAIL"
+        )
+      );
       dispatch({
         type: REGISTER_FAIL,
       });
     });
 };
+23;

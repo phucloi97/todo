@@ -32,7 +32,6 @@ export default function (state = initialState, action) {
         loading: true,
       };
     default:
-      console.log("sdhfbs2");
       return state;
   }
 }

@@ -7,7 +7,6 @@ import { getItems, deleteItem, addItem } from "../actions/itemActions";
 const ShoppingList = (props) => {
   useEffect(() => {
     props.getItems();
-    console.log("1111111111111111111");
   }, []);
 
   return (

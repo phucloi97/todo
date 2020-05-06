@@ -9,10 +9,11 @@ import {
   Label,
   Input,
   NavLink,
-  NavItem,
+  Alert,
 } from "reactstrap";
 import { connect } from "react-redux";
 import { register } from "../actions/authActions";
+import { clearErrors } from "../actions/errorActions";
 
 class RegisterModal extends Component {
   state = {
@@ -26,6 +27,7 @@ class RegisterModal extends Component {
     this.setState({
       modal: !this.state.modal,
     });
+    this.props.clearErrors();
   };
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -36,9 +38,16 @@ class RegisterModal extends Component {
     const newUser = { name, email, password };
     this.props.register(newUser);
   };
+  componentDidUpdate(preProps) {
+    if (preProps !== this.props) {
+      if (this.props.err.id == "REGISTER_FAIL") {
+        return this.setState({ msg: this.props.err.msg });
+      }
+      this.setState({ msg: null });
+    }
+  }
 
   render() {
-    console.log(this.props.isAuthenticated);
     return (
       <div>
         <NavLink onClick={this.toggle} href="#">
@@ -47,6 +56,9 @@ class RegisterModal extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Register</ModalHeader>
           <ModalBody>
+            {this.state.msg ? (
+              <Alert color="danger">{this.state.msg}</Alert>
+            ) : null}
             <FormGroup>
               <Label for="name">Name</Label>
               <Input
@@ -92,4 +104,6 @@ const mapPropstoSate = (state) => ({
   err: state.error,
 });
 
-export default connect(mapPropstoSate, { register })(RegisterModal);
+export default connect(mapPropstoSate, { register, clearErrors })(
+  RegisterModal
+);
