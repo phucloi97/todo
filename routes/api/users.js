@@ -14,6 +14,7 @@ const User = require("../../models/User");
 // access Public
 router.post("/register", (req, res) => {
   const { name, email, password } = req.body;
+  console.log(name + email + password);
   //validate
   if (!name || !email) {
     res.status(400).json({ message: "please enter all feilds" });

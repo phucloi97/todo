@@ -3,6 +3,7 @@ import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
 import { getItems, deleteItem, addItem } from "../actions/itemActions";
+
 const ShoppingList = (props) => {
   useEffect(() => {
     props.getItems();

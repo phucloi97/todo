@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import RegisterModal from "./RegisterModal";
 import {
   Collapse,
   Navbar,
@@ -22,9 +23,7 @@ const AppNavbar = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">
-                GitHub
-              </NavLink>
+              <RegisterModal />
             </NavItem>
           </Nav>
         </Collapse>
