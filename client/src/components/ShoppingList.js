@@ -8,38 +8,41 @@ const ShoppingList = (props) => {
   useEffect(() => {
     props.getItems();
   }, []);
-
   return (
     <Container>
-      <Button
-        color="dark"
-        style={{ margin: "2rem" }}
-        onClick={() => {
-          let name = prompt("Enter Name");
-          if (name) {
-            props.addItem(name);
-          }
-        }}
-      >
-        Add Item
-      </Button>
+      {props.isAuthenticated ? (
+        <Button
+          color="dark"
+          style={{ margin: "2rem" }}
+          onClick={() => {
+            let name = prompt("Enter Name");
+            if (name) {
+              props.addItem(name);
+            }
+          }}
+        >
+          Add Item
+        </Button>
+      ) : null}
       <ListGroup>
         <TransitionGroup className="shopping-list">
           {props.item.items.map(({ _id, name }) => {
             return (
               <CSSTransition key={_id} timeout={500} class="fade">
                 <ListGroupItem>
-                  <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    style={{ marginRight: "2rem" }}
-                    onClick={() => {
-                      props.deleteItem(_id);
-                    }}
-                  >
-                    X
-                  </Button>
+                  {props.isAuthenticated ? (
+                    <Button
+                      className="remove-btn"
+                      color="danger"
+                      size="sm"
+                      style={{ marginRight: "2rem" }}
+                      onClick={() => {
+                        props.deleteItem(_id);
+                      }}
+                    >
+                      X
+                    </Button>
+                  ) : null}
                   {name}
                 </ListGroupItem>
               </CSSTransition>
@@ -52,7 +55,7 @@ const ShoppingList = (props) => {
 };
 
 const mapStateToProps = function (state) {
-  return { item: state.item };
+  return { item: state.item, isAuthenticated: state.auth.isAuthenticated };
 };
 
 export default connect(mapStateToProps, { getItems, deleteItem, addItem })(

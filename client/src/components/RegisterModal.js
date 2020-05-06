@@ -50,7 +50,6 @@ class RegisterModal extends Component {
         this.toggle();
       }
     }
-    console.log(this.state.modal);
   }
 
   render() {

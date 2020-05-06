@@ -49,7 +49,6 @@ class LoginModal extends Component {
         this.toggle();
       }
     }
-    console.log(this.state.modal);
   }
 
   render() {
