@@ -7,7 +7,7 @@ import { getItems, deleteItem, addItem } from "../actions/itemActions";
 const ShoppingList = (props) => {
   useEffect(() => {
     props.getItems();
-  }, []);
+  }, [props.isAuthenticated]);
   return (
     <Container>
       {props.isAuthenticated ? (

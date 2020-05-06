@@ -21,6 +21,7 @@ export const loadUser = () => (dispatch, getState) => {
   });
   //get token from localstorage (lay trong store)
   const token = getState().auth.token;
+  console.log(token);
   // headers
   // console.log(token);
   // // if token add header

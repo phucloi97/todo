@@ -1,9 +1,21 @@
 import { GET_ITEMS, ADD_ITEMS, DELETE_ITEMS, ITEMS_LOADING } from "./types";
 import axios from "axios";
 
-export const getItems = () => (dispatch) => {
+export const getItems = () => (dispatch, getState) => {
   dispatch(setItemsLoading);
-  axios.get("/api/items").then((res) => {
+  const token = getState().auth.token;
+  // headers
+  // console.log(token);
+  // // if token add header
+  const config = {
+    headers: {
+      "conten-type": "application/json",
+    },
+  };
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  axios.get("/api/items", config).then((res) => {
     return dispatch({
       type: GET_ITEMS,
       payload: res.data,

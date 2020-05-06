@@ -6,7 +6,7 @@ function auth(req, res, next) {
 
   // check token
   if (!token) {
-    res.status(401).json({ message: "no token, auth denied" });
+    return res.status(401).json({ message: "no token, auth denied" });
   }
   try {
     //verity token
@@ -16,7 +16,7 @@ function auth(req, res, next) {
     req.user = decoded;
     next();
   } catch (e) {
-    res.status(400).json({ message: "token is not invalid" });
+    return res.status(400).json({ message: "token is not invalid" });
   }
 }
 
