@@ -49,11 +49,13 @@ router.post("/", (req, res) => {
 //description get user data
 //access  private
 router.get("/user", auth, (req, res) => {
-  User.findOne(req.user._id);
-  console
-    .log(user)
+  console.log(req.user.id);
+  User.findOne({ _id: req.user.id })
     .select("-password")
-    .then((user) => res.json(user));
+    .then((user) => {
+      console.log(user);
+      res.json(user);
+    });
 });
 
 //export
